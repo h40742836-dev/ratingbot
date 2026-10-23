@@ -1,3 +1,4 @@
+import sys
 import hashlib
 import hmac
 import json
@@ -28,15 +29,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-from fastapi.middleware.cors import CORSMiddleware
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # для теста, потом можно сузить
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.get("/health")
@@ -106,5 +99,15 @@ async def me(x_init_data: str = Header(default="")):
         "winrate": round(row["wins"] / games * 100) if games else None,
     }
 
+
+
 from backend.tournaments import router  # noqa: E402
 app.include_router(router)
+
+import threading
+import subprocess
+
+def start_bot():
+    subprocess.Popen([sys.executable, "bot/main.py"])
+
+threading.Thread(target=start_bot, daemon=True).start())
