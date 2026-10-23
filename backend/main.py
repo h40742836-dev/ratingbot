@@ -110,4 +110,4 @@ import subprocess
 def start_bot():
     subprocess.Popen([sys.executable, "bot/main.py"])
 
-threading.Thread(target=start_bot, daemon=True).start())
+threading.Thread(target=start_bot, daemon=True).start()
