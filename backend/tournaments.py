@@ -574,7 +574,7 @@ class ManualWin(BaseModel):
 @router.post("/admin/manual-win")
 async def admin_manual_win(body: ManualWin, request: Request, user=Depends(current_user)):
     """Победа, внесённая вручную (например, перенос со старого сайта). Идёт через ту же
-    систему, что и обычный бой: MMR, статистика, калибровка, десятка, история матчей."""
+    систему, что и обычный бой: MMR, статистика, калибровка, пятерка, история матчей."""
     need_admin(user)
     async with request.app.state.pool.acquire() as conn:
         async with conn.transaction():

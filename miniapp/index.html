@@ -294,7 +294,7 @@
       if (m.duration_sec) info += ' · ' + Math.floor(m.duration_sec / 60) + ' мин';
       if (m.is_brilliant) info += ' · блестящая победа';
       c.append(top, el('div', 'muted', info));
-      if (m.bonus) c.append(el('div', 'bonus', 'Бонус за десятку: +' + m.bonus + ' MMR'));
+      if (m.bonus) c.append(el('div', 'bonus', 'Бонус за пятерку: +' + m.bonus + ' MMR'));
       app.append(c);
     });
   }

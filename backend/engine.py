@@ -6,7 +6,7 @@ CALIBRATION_GAMES = 5
 
 
 def decade_rule(n: int):
-    """(бонус MMR, минимальный win rate за десятку, %)"""
+    """(бонус MMR, минимальный win rate за пятерку, %)"""
     if n == 1:
         return 100, 0
     if n <= 9:
@@ -114,7 +114,7 @@ async def apply_player(conn, user_id, is_win, brilliant, match_id, format_id):
             user_id, n, wins, losses, Decimal(str(round(winrate, 2))), ok, bonus if ok else 0,
         )
         if ok:
-            await add_mmr(conn, user_id, bonus, "decade_bonus", match_id, f"Бонус {n}-й десятки")
+            await add_mmr(conn, user_id, bonus, "decade_bonus", match_id, f"Бонус {n}-й пятерки")
     else:
         await conn.execute(
             "UPDATE decades SET wins = $3, losses = $4 WHERE user_id = $1 AND decade_number = $2",
