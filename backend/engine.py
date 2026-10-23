@@ -103,7 +103,7 @@ async def apply_player(conn, user_id, is_win, brilliant, match_id, format_id):
         await conn.execute("INSERT INTO decades (user_id, decade_number) VALUES ($1, $2)", user_id, n)
         d = {"decade_number": n, "wins": 0, "losses": 0}
     n, wins, losses = d["decade_number"], d["wins"] + w, d["losses"] + l
-    if wins >= 5:
+    if (wins + losses) >= 5:
         winrate = wins * 100 / (wins + losses)
         bonus, min_wr = decade_rule(n)
         ok = winrate >= min_wr
@@ -114,7 +114,7 @@ async def apply_player(conn, user_id, is_win, brilliant, match_id, format_id):
             user_id, n, wins, losses, Decimal(str(round(winrate, 2))), ok, bonus if ok else 0,
         )
         if ok:
-            await add_mmr(conn, user_id, bonus, "decade_bonus", match_id, f"Бонус {n}-й пятерки")
+            await add_mmr(conn, user_id, bonus, "decade_bonus", match_id, f"Бонус за 5 боёв")
     else:
         await conn.execute(
             "UPDATE decades SET wins = $3, losses = $4 WHERE user_id = $1 AND decade_number = $2",
