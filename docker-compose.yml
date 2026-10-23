@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16
+    container_name: ratingbot_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ratingbot
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ratingbot
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+  pgdata:
