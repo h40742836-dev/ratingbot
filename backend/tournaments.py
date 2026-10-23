@@ -920,7 +920,7 @@ async def _snap(conn, uid):
 def _extras(b, a, bonus=None):
     lines = [f"Теперь у тебя {a['mmr']} MMR."]
     if bonus:
-        lines.append(f"Бонус за десятку: +{bonus} MMR")
+        lines.append(f"Бонус за пятерку: +{bonus} MMR")
     if a["cal"] and not b["cal"]:
         lines.append(f"Калибровка пройдена! Твой ранг: {a['rank_name']}")
     elif a["cal"] and b["rank"] != a["rank"]:
@@ -946,13 +946,13 @@ async def _match_notes(conn, match_id, tournament_id, winner, loser, brilliant, 
         opp = people[loser if win else winner]["nickname"]
         a = await _snap(conn, uid)
         bonus = await conn.fetchval(
-            "SELECT delta FROM mmr_log WHERE user_id = $1 AND match_id = $2 AND reason = 'decade_bonus'",
+            "SELECT delta FROM mmr_log WHERE user_id = $1 AND match_id = $2 AND reason = 'five_bonus'",
             uid, match_id)
         if win:
             head = (f"Победа над {opp} в турнире «{tour}»: +{10 if brilliant else 5} MMR"
                     + (" (блестящая победа)" if brilliant else ""))
         else:
-            head = f"Поражение от {opp} в турнире «{tour}»: −2 MMR"
+            head = f"Поражение от {opp} в турнире «{tour}»: -2 MMR"
         notes.append((people[uid]["tg_id"], "\n".join([head] + _extras(before[uid], a, bonus))))
     return notes
 

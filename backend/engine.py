@@ -103,7 +103,7 @@ async def apply_player(conn, user_id, is_win, brilliant, match_id, format_id):
         await conn.execute("INSERT INTO decades (user_id, decade_number) VALUES ($1, $2)", user_id, n)
         d = {"decade_number": n, "wins": 0, "losses": 0}
     n, wins, losses = d["decade_number"], d["wins"] + w, d["losses"] + l
-    if wins >= 10:
+    if wins >= 5:
         winrate = wins * 100 / (wins + losses)
         bonus, min_wr = decade_rule(n)
         ok = winrate >= min_wr
