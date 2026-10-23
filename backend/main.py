@@ -28,6 +28,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 
 def verify_init_data(init_data: str, max_age_sec: int = 86400) -> dict:
     """Проверяет подпись Телеграма и возвращает данные пользователя.
